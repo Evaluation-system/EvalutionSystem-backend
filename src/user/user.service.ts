@@ -1,37 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
-export type User = any;
+
 
 
 @Injectable()
 export class UserService {
-  private readonly users = [
-    {
-      id: 1,
-      email: 'dckdc@mail.com',
-      password: 'changeme',
-    },
   
-  ];
-
   constructor(private readonly prismaService: PrismaService) {}
-
-  async create(createUserDto: CreateUserDto) {
-
-    let user = await this.prismaService.user.findUnique({
-      where: {
-        email: createUserDto?.email,
-      }
-    })
-
-    if(user) throw new Error('Not unique email')
-
-    return await this.prismaService.user.create({
-      data: createUserDto,
-    });
-  }
 
   async findAll() {
    
@@ -44,19 +21,6 @@ export class UserService {
         id: id,
       },
     });
-  }
-
-  /*async findOneEmail(email: string) {
-    return await this.prismaService.user.findUnique({
-      where: {
-        email: email,
-      },
-    });
-  }
-  */
-
-  async findOneEmail(email: string): Promise<User | undefined> {
-    return this.users.find(user => user.email === email);
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
@@ -72,4 +36,22 @@ export class UserService {
       where: { id: id }
     });;
   }
+
+  async getByEmail(email: string) {
+    const user = await this.prismaService.user.findUnique({  
+      where: { email: email } });
+    if (!user) {
+      throw new HttpException('User with this email does not exist', HttpStatus.NOT_FOUND);
+    }
+    return user
+
+  }
+ 
+  async create(createUserDto: CreateUserDto) {
+    const newUser = await this.prismaService.user.create({
+      data: createUserDto,
+    });;
+    return newUser;
+  }
 }
+
