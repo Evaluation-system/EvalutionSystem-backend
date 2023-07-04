@@ -1,11 +1,13 @@
-
-import { Role } from './role.enum';
 import { CanActivate, ExecutionContext, mixin, Type } from '@nestjs/common';
+import { Role } from '@prisma/client';
+import JwtAuthenticationGuard from 'src/auth/jwt-auth.guard';
 import RequestWithUser from 'src/auth/requestWithUser.interface'; 
  
 const RoleGuard = (role: Role): Type<CanActivate> => {
-  class RoleGuardMixin implements CanActivate {
-    canActivate(context: ExecutionContext) {
+  class RoleGuardMixin extends JwtAuthenticationGuard {
+    async canActivate(context: ExecutionContext) {
+      await super.canActivate(context);
+ 
       const request = context.switchToHttp().getRequest<RequestWithUser>();
       const user = request.user;
  

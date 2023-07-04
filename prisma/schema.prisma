@@ -39,18 +39,18 @@ model Procings{
 
 model Tasks{
   id        Int      @default(autoincrement()) @id
-  Project    UserProjects?    @relation(fields: [ProjectId], references: [id])
-  ProjectId  Int?
   task String
   time Int
+  Project    UserProjects?    @relation(fields: [ProjectId], references: [id])
+  ProjectId  Int?
 }
 
 model EmployeePayments{
   id        Int      @default(autoincrement()) @id
-  Project    UserProjects?    @relation(fields: [ProjectId], references: [id])
-  ProjectId  Int?
   employee String
   salary Int
+  Project    UserProjects?    @relation(fields: [ProjectId], references: [id])
+  ProjectId  Int?
 }
 
 enum Role {

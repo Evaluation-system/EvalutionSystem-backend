@@ -1,26 +1,43 @@
 import { Injectable } from '@nestjs/common';
 import { CreateEmployeePaymentDto } from './dto/create-employee-payment.dto';
 import { UpdateEmployeePaymentDto } from './dto/update-employee-payment.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class EmployeePaymentsService {
-  create(createEmployeePaymentDto: CreateEmployeePaymentDto) {
-    return 'This action adds a new employeePayment';
+  constructor(private readonly prismaService: PrismaService) {}
+
+  async findAll() {
+   
+    return await this.prismaService.employeePayments.findMany();
   }
 
-  findAll() {
-    return `This action returns all employeePayments`;
+  async findOne(id: number) {
+    return await this.prismaService.employeePayments.findUnique({
+      where: {
+        id: id,
+      },
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} employeePayment`;
+  async update(id: number, UpdateEmployeePaymentDto: UpdateEmployeePaymentDto) {
+
+    return await this.prismaService.employeePayments.update({
+      where: { id: id },
+      data: UpdateEmployeePaymentDto,
+    });
   }
 
-  update(id: number, updateEmployeePaymentDto: UpdateEmployeePaymentDto) {
-    return `This action updates a #${id} employeePayment`;
+  async remove(id: number) {
+    return await this.prismaService.employeePayments.delete({
+      where: { id: id }
+    });;
   }
-
-  remove(id: number) {
-    return `This action removes a #${id} employeePayment`;
+ 
+  async create(CreateEmployeePaymentDto: CreateEmployeePaymentDto) {
+    const newEmployeePayment = await this.prismaService.employeePayments.create({
+      data: CreateEmployeePaymentDto,
+    });;
+    return newEmployeePayment;
   }
 }
