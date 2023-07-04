@@ -31,10 +31,10 @@ model UserProjects {
 
 model Procings{
   id        Int      @default(autoincrement()) @id
-  Project    UserProjects?    @relation(fields: [ProjectId], references: [id])
-  ProjectId  Int?
   cost String
   value Int
+  Project    UserProjects?    @relation(fields: [ProjectId], references: [id])
+  ProjectId  Int?
 }
 
 model Tasks{
