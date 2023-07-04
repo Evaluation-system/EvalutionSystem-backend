@@ -14,4 +14,46 @@ model User {
   id    Int     @id @default(autoincrement())
   email String  @unique
   password  String?
+  role Role @default(user)
+  projects UserProjects[]
+}
+
+model UserProjects {
+  id        Int      @default(autoincrement()) @id
+  title     String
+  description   String?
+  User    User?    @relation(fields: [UserId], references: [id])
+  UserId  Int?
+  procing Procings[]
+  tasks Tasks[]
+  employeePayments EmployeePayments[]
+}
+
+model Procings{
+  id        Int      @default(autoincrement()) @id
+  Project    UserProjects?    @relation(fields: [ProjectId], references: [id])
+  ProjectId  Int?
+  cost String
+  value Int
+}
+
+model Tasks{
+  id        Int      @default(autoincrement()) @id
+  Project    UserProjects?    @relation(fields: [ProjectId], references: [id])
+  ProjectId  Int?
+  task String
+  time Int
+}
+
+model EmployeePayments{
+  id        Int      @default(autoincrement()) @id
+  Project    UserProjects?    @relation(fields: [ProjectId], references: [id])
+  ProjectId  Int?
+  employee String
+  salary Int
+}
+
+enum Role {
+  user
+  admin
 }

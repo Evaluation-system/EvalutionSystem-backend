@@ -1,16 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 
+
+
 @Injectable()
 export class UserService {
-
+  
   constructor(private readonly prismaService: PrismaService) {}
-
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
-  }
 
   async findAll() {
    
@@ -38,4 +36,22 @@ export class UserService {
       where: { id: id }
     });;
   }
+
+  async getByEmail(email: string) {
+    const user = await this.prismaService.user.findUnique({  
+      where: { email: email } });
+    if (!user) {
+      throw new HttpException('User with this email does not exist', HttpStatus.NOT_FOUND);
+    }
+    return user
+
+  }
+ 
+  async create(createUserDto: CreateUserDto) {
+    const newUser = await this.prismaService.user.create({
+      data: createUserDto,
+    });;
+    return newUser;
+  }
 }
+
