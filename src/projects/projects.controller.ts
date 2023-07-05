@@ -5,12 +5,13 @@ import { UpdateProjectDto } from './dto/update-project.dto';
 import RoleGuard from 'src/role/role.guard';
 import { Role } from '@prisma/client';
 import { LocalAuthenticationGuard } from 'src/auth/localAuthentication.guard';
+import JwtAuthenticationGuard from 'src/auth/jwt-auth.guard';
 
 @Controller('projects')
 export class ProjectsController {
-  constructor(private readonly projectsService: ProjectsService) {}
+  constructor(private readonly projectsService: ProjectsService) { }
 
-  @UseGuards(RoleGuard(Role.admin))
+  @UseGuards(JwtAuthenticationGuard)
   @Post()
   create(@Body() createProjectDto: CreateProjectDto) {
     return this.projectsService.create(createProjectDto);

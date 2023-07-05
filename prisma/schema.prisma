@@ -11,47 +11,47 @@ datasource db {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  password  String?
-  role Role @default(user)
+  id       Int            @id @default(autoincrement())
+  email    String         @unique
+  password String?
+  role     Role           @default(user)
   projects UserProjects[]
 }
 
 model UserProjects {
-  id        Int      @default(autoincrement()) @id
-  title     String
-  description   String?
-  User    User?    @relation(fields: [UserId], references: [id])
-  UserId  Int?
-  procing Procings[]
-  tasks Tasks[]
+  id               Int                @id @default(autoincrement())
+  title            String
+  description      String?
+  User             User?              @relation(fields: [UserId], references: [id])
+  UserId           Int?
+  procing          Procings[]
+  tasks            Tasks[]
   employeePayments EmployeePayments[]
-  pathImage String
+  pathImage String? 
 }
 
-model Procings{
-  id        Int      @default(autoincrement()) @id
-  cost String
-  value Int
-  Project    UserProjects?    @relation(fields: [ProjectId], references: [id])
-  ProjectId  Int?
+model Procings {
+  id        Int           @id @default(autoincrement())
+  cost      String
+  value     Int
+  Project   UserProjects? @relation(fields: [ProjectId], references: [id])
+  ProjectId Int?
 }
 
-model Tasks{
-  id        Int      @default(autoincrement()) @id
-  task String
-  time Int
-  Project    UserProjects?    @relation(fields: [ProjectId], references: [id])
-  ProjectId  Int?
+model Tasks {
+  id        Int           @id @default(autoincrement())
+  task      String
+  time      Int
+  Project   UserProjects? @relation(fields: [ProjectId], references: [id])
+  ProjectId Int?
 }
 
-model EmployeePayments{
-  id        Int      @default(autoincrement()) @id
-  employee String
-  salary Int
-  Project    UserProjects?    @relation(fields: [ProjectId], references: [id])
-  ProjectId  Int?
+model EmployeePayments {
+  id        Int           @id @default(autoincrement())
+  employee  String
+  salary    Int
+  Project   UserProjects? @relation(fields: [ProjectId], references: [id])
+  ProjectId Int?
 }
 
 enum Role {
