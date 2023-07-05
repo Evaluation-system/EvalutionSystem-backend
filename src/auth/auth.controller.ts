@@ -11,7 +11,7 @@ import RequestWithUser from './requestWithUser.interface';
 import JwtAuthenticationGuard from './jwt-auth.guard';
 import { LocalAuthenticationGuard } from './localAuthentication.guard';
 import { RegisterDto } from './dto/register.dto';
-import { Express } from 'express';
+import { Express, Response } from 'express';
 import { request } from 'http';
 import { ObjectUnsubscribedError } from 'rxjs';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -72,23 +72,23 @@ export class AuthController {
 
   @Post('upload-image/:id')
   @UseInterceptors(FileInterceptor("file", {
-    storage: diskStorage({
+    storage: diskStorage( {
       destination: "./image",
       filename: (req, file, cb) => {
         const name = file.originalname
         cb(null, name)
       }
     }),
-    fileFilter: (req, file, cb) => {
-      if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
-        return cb(null, false)
+    fileFilter:(req, file, cb ) => {
+      if (!file.originalname.match(/\.(jpg|jpeg|png)$/)){
+        return cb (null, false)
       }
-      cb(null, true)
+      cb(null,true)
     }
   }))
-  async uploadImage(@Param('id') id: number, @UploadedFile() file: Express.Multer.File) {
+  async uploadImage(@Param ('id') id:number, @UploadedFile() file: Express.Multer.File){
     id = Number(id)
-    if (!file) {
+    if(!file){
       throw new BadRequestException("Файл не является изображением");
     } else {
       const response = {
@@ -104,12 +104,12 @@ export class AuthController {
       return response
     }
   }
+  
 
-
-  // @Get('images/:filename')
-  // async getImage(@Param('filename') filename, @Res() res: Response){
-  //   res.sendFile(filename, {root:'./images'});
-  // }
+  @Get('images/:filename')
+  async getImage(@Param('filename') filename, @Res() res: Response){
+    res.sendFile(filename, {root:'./image'});
+  }
 }
 
 
