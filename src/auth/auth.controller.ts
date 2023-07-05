@@ -2,7 +2,7 @@ import {
   Controller,
   Request,
   Get,
-  Post, Body, Patch, Param, Delete, HttpCode, HttpStatus, UseGuards, Req, Res
+  Post, Body, Patch, Param, Delete, HttpCode, HttpStatus, UseGuards, Req, Res, UploadedFile, UseInterceptors, BadRequestException
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
@@ -11,13 +11,18 @@ import RequestWithUser from './requestWithUser.interface';
 import JwtAuthenticationGuard from './jwt-auth.guard';
 import { LocalAuthenticationGuard } from './localAuthentication.guard';
 import { RegisterDto } from './dto/register.dto';
-import { Response, response } from 'express';
+import { Response, Express } from 'express';
 import { request } from 'http';
 import { ObjectUnsubscribedError } from 'rxjs';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { error } from 'console';
+import { ProjectsService } from 'src/projects/projects.service';
+import { CreateProjectDto } from 'src/projects/dto/create-project.dto';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private ProjectsService: ProjectsService) { }
 
   @Post('register')
   async register(@Body() registrationData: RegisterDto) {
@@ -63,6 +68,41 @@ export class AuthController {
 
     request.res.header['Set-Cookie'] = cookie;
     return { success: true }
+  }
+
+  @Post('upload-image/:id')
+  @UseInterceptors(FileInterceptor("file", {
+    storage: diskStorage( {
+      destination: "./image",
+      filename: (req, file, cb) => {
+        const name = file.originalname
+        cb(null, name)
+      }
+    }),
+    fileFilter:(req, file, cb ) => {
+      if (!file.originalname.match(/\.(jpg|jpeg|png)$/)){
+        return cb (null, false)
+      }
+      cb(null,true)
+    }
+  }))
+  async uploadImage(@Param ('id') id:number, @UploadedFile() file: Express.Multer.File){
+    id = Number(id)
+    if(!file){
+      throw new BadRequestException("Файл не является изображением");
+    } else {
+      const response = {
+        filePath: `./pictures/${file.filename}`
+      }
+      let project = await this.ProjectsService.findOne(id)
+      console.log(id)
+      console.log(project)
+      project.pathImage = response.filePath
+      this.ProjectsService.update(
+        +id, project
+      )
+      return response
+    }
   }
 
 }

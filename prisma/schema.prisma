@@ -27,6 +27,7 @@ model UserProjects {
   procing Procings[]
   tasks Tasks[]
   employeePayments EmployeePayments[]
+  pathImage String
 }
 
 model Procings{

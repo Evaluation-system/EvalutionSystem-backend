@@ -9,4 +9,7 @@ export class CreateProjectDto {
     @IsString()
     @IsNotEmpty()
     description: string
+
+    @IsString()
+    pathImage: string
 }
