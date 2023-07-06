@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, BadRequestException, UploadedFile, UseInterceptors, Res } from '@nestjs/common';
 import { ProjectsService } from './projects.service';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
@@ -6,6 +6,9 @@ import RoleGuard from 'src/role/role.guard';
 import { Role } from '@prisma/client';
 import { LocalAuthenticationGuard } from 'src/auth/localAuthentication.guard';
 import JwtAuthenticationGuard from 'src/auth/jwt-auth.guard';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { Express, Response } from 'express';
 
 @Controller('projects')
 export class ProjectsController {
@@ -37,5 +40,45 @@ export class ProjectsController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.projectsService.remove(+id);
+  }
+  @Post('upload-image/:id')
+  @UseInterceptors(FileInterceptor("file", {
+    storage: diskStorage( {
+      destination: "./image",
+      filename: (req, file, cb) => {
+        const name = file.originalname.split(".")[0];
+        const fileExtension = file.originalname.split(".")[1];
+        const Newname = name + "_" + Date.now() + "." + fileExtension;
+        //const name = file.originalname
+        cb(null, Newname);        
+      }
+    }),
+    fileFilter:(req, file, cb ) => {
+      if (!file.originalname.match(/\.(jpg|jpeg|png)$/)){
+        return cb (null, false)
+      }
+      cb(null,true)
+    }
+  }))
+  async uploadImage(@Param ('id') id:number, @UploadedFile() file: Express.Multer.File){
+    id = Number(id)
+    if(!file){
+      throw new BadRequestException("Файл не является изображением");
+    } else {
+      const response = {
+        filePath: `./pictures/${file.filename}`
+      }
+      let project = await this.projectsService.findOne(id)
+      project.pathImage = response.filePath
+      this.projectsService.update(
+        +id, project
+      )
+      return response
+    }
+  }
+
+  @Get('images/:filename')
+  async getImage(@Param('filename') filename, @Res() res: Response){
+    res.sendFile(filename, {root:'./image'});
   }
 }

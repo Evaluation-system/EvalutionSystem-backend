@@ -22,7 +22,7 @@ import { CreateProjectDto } from 'src/projects/dto/create-project.dto';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService, private ProjectsService: ProjectsService) { }
+  constructor(private authService: AuthService) { }
 
   @Post('register')
   async register(@Body() registrationData: RegisterDto) {
@@ -68,47 +68,6 @@ export class AuthController {
 
     request.res.header['Set-Cookie'] = cookie;
     return { success: true }
-  }
-
-  @Post('upload-image/:id')
-  @UseInterceptors(FileInterceptor("file", {
-    storage: diskStorage( {
-      destination: "./image",
-      filename: (req, file, cb) => {
-        const name = file.originalname
-        cb(null, name)
-      }
-    }),
-    fileFilter:(req, file, cb ) => {
-      if (!file.originalname.match(/\.(jpg|jpeg|png)$/)){
-        return cb (null, false)
-      }
-      cb(null,true)
-    }
-  }))
-  async uploadImage(@Param ('id') id:number, @UploadedFile() file: Express.Multer.File){
-    id = Number(id)
-    if(!file){
-      throw new BadRequestException("Файл не является изображением");
-    } else {
-      const response = {
-        filePath: `./pictures/${file.filename}`
-      }
-      let project = await this.ProjectsService.findOne(id)
-      console.log(id)
-      console.log(project)
-      project.pathImage = response.filePath
-      this.ProjectsService.update(
-        +id, project
-      )
-      return response
-    }
-  }
-  
-
-  @Get('images/:filename')
-  async getImage(@Param('filename') filename, @Res() res: Response){
-    res.sendFile(filename, {root:'./image'});
   }
 }
 
