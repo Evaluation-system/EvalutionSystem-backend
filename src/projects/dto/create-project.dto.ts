@@ -1,4 +1,4 @@
-import { IsEmail, IsString, IsNotEmpty} from "@nestjs/class-validator"
+import { IsString, IsNotEmpty} from "@nestjs/class-validator"
 
 export class CreateProjectDto {
     @IsString()
@@ -9,12 +9,4 @@ export class CreateProjectDto {
     @IsString()
     @IsNotEmpty()
     description: string
-
-
-
-
-
-
-
-
 }

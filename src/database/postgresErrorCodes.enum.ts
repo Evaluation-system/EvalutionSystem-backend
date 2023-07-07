@@ -1,5 +1,5 @@
 
 
 export enum PostgresErrorCode {
-    UniqueViolation = '23505'
+    UniqueViolation = 'P2002'
   }
