@@ -65,7 +65,7 @@ export class ProjectsController {
       throw new BadRequestException("Файл не является изображением");
     } else {
       const response = {
-        filePath: `./images/${file.filename}`
+        filePath: `./image/${file.filename}`
       }
       let project = await this.projectsService.findOne(id)
       project.pathImage = response.filePath
@@ -76,7 +76,7 @@ export class ProjectsController {
     }
   }
 
-  @Get('images/:filename')
+  @Get('image/:filename')
   async getImage(@Param('filename') filename, @Res() res: Response){
     res.sendFile(filename, {root:'./image'});
   }
