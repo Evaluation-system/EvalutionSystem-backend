@@ -41,6 +41,7 @@ export class ProjectsController {
   remove(@Param('id') id: string) {
     return this.projectsService.remove(+id);
   }
+  
   @Post('upload-image/:id')
   @UseInterceptors(FileInterceptor("file", {
     storage: diskStorage( {
