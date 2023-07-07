@@ -4,7 +4,6 @@ import { CreateProcingDto } from './dto/create-procing.dto';
 import { UpdateProcingDto } from './dto/update-procing.dto';
 import RoleGuard from 'src/role/role.guard';
 import { Role } from '@prisma/client';
-import { LocalAuthenticationGuard } from 'src/auth/localAuthentication.guard';
 
 @Controller('procings')
 export class ProcingsController {

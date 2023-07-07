@@ -2,7 +2,6 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@n
 import { EmployeePaymentsService } from './employee-payments.service';
 import { CreateEmployeePaymentDto } from './dto/create-employee-payment.dto';
 import { UpdateEmployeePaymentDto } from './dto/update-employee-payment.dto';
-import { LocalAuthenticationGuard } from 'src/auth/localAuthentication.guard';
 import RoleGuard from 'src/role/role.guard';
 import { Role } from '@prisma/client';
 

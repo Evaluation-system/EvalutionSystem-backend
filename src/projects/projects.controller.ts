@@ -4,7 +4,6 @@ import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
 import RoleGuard from 'src/role/role.guard';
 import { Role } from '@prisma/client';
-import { LocalAuthenticationGuard } from 'src/auth/localAuthentication.guard';
 import JwtAuthenticationGuard from 'src/auth/jwt-auth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -50,7 +49,6 @@ export class ProjectsController {
         const name = file.originalname.split(".")[0];
         const fileExtension = file.originalname.split(".")[1];
         const Newname = name + "_" + Date.now() + "." + fileExtension;
-        //const name = file.originalname
         cb(null, Newname);        
       }
     }),

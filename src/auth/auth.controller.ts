@@ -2,23 +2,14 @@ import {
   Controller,
   Request,
   Get,
-  Post, Body, Patch, Param, Delete, HttpCode, HttpStatus, UseGuards, Req, UploadedFile, UseInterceptors, BadRequestException, Res
+  Post, Body, HttpCode, UseGuards, Req, Res
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
 import RequestWithUser from './requestWithUser.interface';
 import JwtAuthenticationGuard from './jwt-auth.guard';
 import { LocalAuthenticationGuard } from './localAuthentication.guard';
 import { RegisterDto } from './dto/register.dto';
-import { Express, Response } from 'express';
-import { request } from 'http';
-import { ObjectUnsubscribedError } from 'rxjs';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
-import { error } from 'console';
-import { ProjectsService } from 'src/projects/projects.service';
-import { CreateProjectDto } from 'src/projects/dto/create-project.dto';
+import { Response } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -43,13 +34,6 @@ export class AuthController {
     )
     request.res.set('Set-Cookie', await cookie)
     user.password = undefined
-    return request.res.send(user)
-    //request.res.header['Set-Cookie'] = cookie;
-
-    console.log(request.res.header)
-    user.password = undefined
-
-    console.log(request.res)
     return request.res.send(user)
   }
 
