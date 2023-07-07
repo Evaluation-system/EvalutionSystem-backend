@@ -65,7 +65,7 @@ export class ProjectsController {
       throw new BadRequestException("Файл не является изображением");
     } else {
       const response = {
-        filePath: `./pictures/${file.filename}`
+        filePath: `./images/${file.filename}`
       }
       let project = await this.projectsService.findOne(id)
       project.pathImage = response.filePath
