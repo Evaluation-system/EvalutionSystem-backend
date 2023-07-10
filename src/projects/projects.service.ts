@@ -41,4 +41,10 @@ export class ProjectsService {
     });;
     return newProject;
   }
+
+  async finduserid(UserId: number) {
+    return await this.prismaService.userProjects.findMany({
+      where: { UserId: UserId },
+    });
+  }
 }

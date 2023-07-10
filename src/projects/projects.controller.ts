@@ -35,7 +35,6 @@ export class ProjectsController {
     return this.projectsService.update(+id, updateProjectDto);
   }
 
-  @UseGuards(RoleGuard(Role.admin))
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.projectsService.remove(+id);
@@ -65,7 +64,7 @@ export class ProjectsController {
       throw new BadRequestException("Файл не является изображением");
     } else {
       const response = {
-        filePath: `./image/${file.filename}`
+        filePath: `${file.filename}`
       }
       let project = await this.projectsService.findOne(id)
       project.pathImage = response.filePath
@@ -76,14 +75,20 @@ export class ProjectsController {
     }
   }
 
-  @Get('image/:filename')
-  async getImage(@Param('filename') filename, @Res() res: Response){
-    res.sendFile(filename, {root:'./image'});
+  @Get('image/:id')
+  async getImage(@Param('id') id: string, @Res() res: Response){
+    const project = this.projectsService.findOne(+id);
+    res.sendFile((await project).pathImage, {root:'./image'});
   }
 
-  @Get(':id/Patch')
+  @Get('user/:id')
+  finduserid(@Param('id') id: string) {
+    return this.projectsService.finduserid(+id);
+  }
+
+  /*@Get(':id/patch')
   async getPatch( @Param('id') id: string){
     const project = this.projectsService.findOne(+id);
     return  (await project).pathImage;
-  }
+  }*/
 }
