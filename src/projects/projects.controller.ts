@@ -9,7 +9,6 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { Express, Response } from 'express';
 import RequestWithUser from 'src/auth/requestWithUser.interface';
-import RequestWithProject from 'src/Creator/requestWithProject.interface';
 import  CreatorGuard  from 'src/Creator/Creator.guard';
 
 @Controller('projects')
@@ -40,7 +39,7 @@ export class ProjectsController {
 
   @UseGuards(JwtAuthenticationGuard, CreatorGuard)
   @Delete(':id')
-  remove(@Request() request: RequestWithUser, @Request() request2: RequestWithProject, @Param('id') id: string) {
+  remove(@Request() request: RequestWithUser, @Param('id') id: string) {
     return this.projectsService.remove(+id);
   }
   
