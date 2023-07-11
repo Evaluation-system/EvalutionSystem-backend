@@ -26,6 +26,11 @@ export class EmployeePaymentsController {
     return this.employeePaymentsService.findOne(+id);
   }
 
+  @Get('project/:id')
+  findprojectid(@Param('id') id: string) {
+    return this.employeePaymentsService.findprojectid(+id);
+  }
+
   @UseGuards(RoleGuard(Role.admin))
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateEmployeePaymentDto: UpdateEmployeePaymentDto) {

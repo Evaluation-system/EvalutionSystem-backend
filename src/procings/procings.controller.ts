@@ -25,6 +25,11 @@ export class ProcingsController {
     return this.procingsService.findOne(+id);
   }
 
+  @Get('project/:id')
+  findprojectid(@Param('id') id: string) {
+    return this.procingsService.findprojectid(+id);
+  }
+
   @UseGuards(RoleGuard(Role.admin))
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateProcingDto: UpdateProcingDto) {

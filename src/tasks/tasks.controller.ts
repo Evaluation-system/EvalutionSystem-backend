@@ -9,7 +9,6 @@ import { Role } from '@prisma/client';
 export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
 
-  @UseGuards(RoleGuard(Role.admin))
   @Post()
   create(@Body() createTaskDto: CreateTaskDto) {
     return this.tasksService.create(createTaskDto);
@@ -25,13 +24,18 @@ export class TasksController {
     return this.tasksService.findOne(+id);
   }
 
-  @UseGuards(RoleGuard(Role.admin))
+  @Get('project/:id')
+  findprojectid(@Param('id') id: string) {
+    return this.tasksService.findprojectid(+id);
+  }
+
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateTaskDto: UpdateTaskDto) {
     return this.tasksService.update(+id, updateTaskDto);
   }
 
-  @UseGuards(RoleGuard(Role.admin))
+
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.tasksService.remove(+id);

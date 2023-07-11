@@ -20,6 +20,12 @@ export class EmployeePaymentsService {
     });
   }
 
+  async findprojectid(ProjectId: number) {
+    return await this.prismaService.employeePayments.findMany({
+      where: { ProjectId: ProjectId },
+    });
+  }
+
   async update(id: number, UpdateEmployeePaymentDto: UpdateEmployeePaymentDto) {
 
     return await this.prismaService.employeePayments.update({

@@ -20,6 +20,12 @@ export class ProcingsService {
     });
   }
 
+  async findprojectid(ProjectId: number) {
+    return await this.prismaService.procings.findMany({
+      where: { ProjectId: ProjectId },
+    });
+  }
+
   async update(id: number, UpdateProjectDto: UpdateProcingDto) {
 
     return await this.prismaService.procings.update({
