@@ -10,6 +10,7 @@ import JwtAuthenticationGuard from './jwt-auth.guard';
 import { LocalAuthenticationGuard } from './localAuthentication.guard';
 import { RegisterDto } from './dto/register.dto';
 import { Response } from 'express';
+import RequestWithProject from 'src/Creator/requestWithProject.interface';
 
 @Controller('auth')
 export class AuthController {

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, BadRequestException, UploadedFile, UseInterceptors, Res } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, BadRequestException, UploadedFile, UseInterceptors, Request, Res } from '@nestjs/common';
 import { ProjectsService } from './projects.service';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
@@ -8,6 +8,9 @@ import JwtAuthenticationGuard from 'src/auth/jwt-auth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { Express, Response } from 'express';
+import RequestWithUser from 'src/auth/requestWithUser.interface';
+import RequestWithProject from 'src/Creator/requestWithProject.interface';
+import  CreatorGuard  from 'src/Creator/Creator.guard';
 
 @Controller('projects')
 export class ProjectsController {
@@ -35,8 +38,9 @@ export class ProjectsController {
     return this.projectsService.update(+id, updateProjectDto);
   }
 
+  @UseGuards(JwtAuthenticationGuard, CreatorGuard)
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Request() request: RequestWithUser, @Request() request2: RequestWithProject, @Param('id') id: string) {
     return this.projectsService.remove(+id);
   }
   
@@ -80,6 +84,7 @@ export class ProjectsController {
     const project = this.projectsService.findOne(+id);
     res.sendFile((await project).pathImage, {root:'./image'});
   }
+
 
   @Get('user/:id')
   finduserid(@Param('id') id: string) {
