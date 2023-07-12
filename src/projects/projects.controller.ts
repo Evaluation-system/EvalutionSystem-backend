@@ -81,7 +81,7 @@ export class ProjectsController {
   @Get('image/:id')
   async getImage(@Param('id') id: string, @Res() res: Response){
     const project = this.projectsService.findOne(+id);
-    return res.sendFile((await project).pathImage, {root:'./image'});
+    return {data:res.sendFile((await project).pathImage, {root:'./image'})}
   }
 
 
