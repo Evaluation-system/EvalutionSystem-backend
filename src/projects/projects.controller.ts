@@ -15,7 +15,7 @@ import  CreatorGuard  from 'src/Creator/Creator.guard';
 export class ProjectsController {
   constructor(private readonly projectsService: ProjectsService) { }
 
-  @UseGuards(JwtAuthenticationGuard)
+  //@UseGuards(JwtAuthenticationGuard)
   @Post()
   create(@Body() createProjectDto: CreateProjectDto) {
     return this.projectsService.create(createProjectDto);
