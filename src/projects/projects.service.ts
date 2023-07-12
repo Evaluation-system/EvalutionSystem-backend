@@ -43,8 +43,9 @@ export class ProjectsService {
   }
 
   async finduserid(UserId: number) {
-    return await this.prismaService.userProjects.findMany({
+    const masproject = await this.prismaService.userProjects.findMany({
       where: { UserId: UserId },
     });
+    return masproject.sort((a, b) => a.id - b.id);
   }
 }
