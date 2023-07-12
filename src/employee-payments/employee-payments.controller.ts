@@ -10,7 +10,7 @@ import { Role } from '@prisma/client';
 export class EmployeePaymentsController {
   constructor(private readonly employeePaymentsService: EmployeePaymentsService) {}
 
-  @UseGuards(RoleGuard(Role.admin))
+  
   @Post()
   create(@Body() createEmployeePaymentDto: CreateEmployeePaymentDto) {
     return this.employeePaymentsService.create(createEmployeePaymentDto);
@@ -26,13 +26,18 @@ export class EmployeePaymentsController {
     return this.employeePaymentsService.findOne(+id);
   }
 
-  @UseGuards(RoleGuard(Role.admin))
+  @Get('project/:id')
+  findprojectid(@Param('id') id: string) {
+    return this.employeePaymentsService.findprojectid(+id);
+  }
+
+  
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateEmployeePaymentDto: UpdateEmployeePaymentDto) {
     return this.employeePaymentsService.update(+id, updateEmployeePaymentDto);
   }
 
-  @UseGuards(RoleGuard(Role.admin))
+  
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.employeePaymentsService.remove(+id);

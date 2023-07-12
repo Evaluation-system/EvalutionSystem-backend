@@ -20,6 +20,12 @@ export class TasksService {
     });
   }
 
+  async findprojectid(ProjectId: number) {
+    return await this.prismaService.tasks.findMany({
+      where: { ProjectId: ProjectId },
+    });
+  }
+
   async update(id: number, UpdateProjectDto: UpdateTaskDto) {
 
     return await this.prismaService.tasks.update({

@@ -9,4 +9,8 @@ export class CreateProjectDto {
     @IsString()
     @IsNotEmpty()
     description: string
+
+    @IsString()
+    @IsNotEmpty()
+    client: string
 }

@@ -12,6 +12,7 @@ datasource db {
 
 model User {
   id       Int            @id @default(autoincrement())
+  name String?
   email    String         @unique
   password String?
   role     Role           @default(user)
@@ -22,6 +23,7 @@ model UserProjects {
   id               Int                @id @default(autoincrement())
   title            String
   description      String?
+  client           String?
   User             User?              @relation(fields: [UserId], references: [id])
   UserId           Int?
   procing          Procings[]

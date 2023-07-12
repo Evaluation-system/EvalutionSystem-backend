@@ -9,14 +9,13 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { Express, Response } from 'express';
 import RequestWithUser from 'src/auth/requestWithUser.interface';
-import RequestWithProject from 'src/Creator/requestWithProject.interface';
 import  CreatorGuard  from 'src/Creator/Creator.guard';
 
 @Controller('projects')
 export class ProjectsController {
   constructor(private readonly projectsService: ProjectsService) { }
 
-  @UseGuards(JwtAuthenticationGuard)
+  //@UseGuards(JwtAuthenticationGuard)
   @Post()
   create(@Body() createProjectDto: CreateProjectDto) {
     return this.projectsService.create(createProjectDto);
@@ -32,7 +31,7 @@ export class ProjectsController {
     return this.projectsService.findOne(+id);
   }
 
-  @UseGuards(RoleGuard(Role.admin))
+  //@UseGuards(RoleGuard(Role.admin))
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateProjectDto: UpdateProjectDto) {
     return this.projectsService.update(+id, updateProjectDto);
@@ -40,7 +39,7 @@ export class ProjectsController {
 
   @UseGuards(JwtAuthenticationGuard, CreatorGuard)
   @Delete(':id')
-  remove(@Request() request: RequestWithUser, @Request() request2: RequestWithProject, @Param('id') id: string) {
+  remove(@Request() request: RequestWithUser, @Param('id') id: string) {
     return this.projectsService.remove(+id);
   }
   
@@ -82,7 +81,7 @@ export class ProjectsController {
   @Get('image/:id')
   async getImage(@Param('id') id: string, @Res() res: Response){
     const project = this.projectsService.findOne(+id);
-    res.sendFile((await project).pathImage, {root:'./image'});
+    return {data:res.sendFile((await project).pathImage, {root:'./image'})}
   }
 
 

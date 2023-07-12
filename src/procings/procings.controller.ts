@@ -9,7 +9,6 @@ import { Role } from '@prisma/client';
 export class ProcingsController {
   constructor(private readonly procingsService: ProcingsService) {}
 
-  @UseGuards(RoleGuard(Role.admin))
   @Post()
   create(@Body() createProcingDto: CreateProcingDto) {
     return this.procingsService.create(createProcingDto);
@@ -25,13 +24,18 @@ export class ProcingsController {
     return this.procingsService.findOne(+id);
   }
 
-  @UseGuards(RoleGuard(Role.admin))
+  @Get('project/:id')
+  findprojectid(@Param('id') id: string) {
+    return this.procingsService.findprojectid(+id);
+  }
+
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateProcingDto: UpdateProcingDto) {
     return this.procingsService.update(+id, updateProcingDto);
   }
 
-  @UseGuards(RoleGuard(Role.admin))
+
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.procingsService.remove(+id);
