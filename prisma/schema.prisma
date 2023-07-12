@@ -31,7 +31,7 @@ model UserProjects {
   employeePayments EmployeePayments[]
   pathImage String? 
   price Int?
-  terms String? 
+  terms String?
 }
 
 model Procings {
