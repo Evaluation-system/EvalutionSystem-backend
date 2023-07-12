@@ -30,8 +30,8 @@ model UserProjects {
   tasks            Tasks[]
   employeePayments EmployeePayments[]
   pathImage String? 
-  price Int
-  terms String 
+  price Int?
+  terms String?
 }
 
 model Procings {
