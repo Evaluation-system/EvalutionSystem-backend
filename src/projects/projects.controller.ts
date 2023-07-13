@@ -15,23 +15,25 @@ import  CreatorGuard  from 'src/Creator/Creator.guard';
 export class ProjectsController {
   constructor(private readonly projectsService: ProjectsService) { }
 
-  //@UseGuards(JwtAuthenticationGuard)
+  @UseGuards(JwtAuthenticationGuard)
   @Post()
   create(@Body() createProjectDto: CreateProjectDto) {
     return this.projectsService.create(createProjectDto);
   }
 
+  @UseGuards(JwtAuthenticationGuard)
   @Get()
   findAll() {
     return this.projectsService.findAll();
   }
 
+  @UseGuards(JwtAuthenticationGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.projectsService.findOne(+id);
   }
 
-  //@UseGuards(RoleGuard(Role.admin))
+  @UseGuards(JwtAuthenticationGuard, CreatorGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateProjectDto: UpdateProjectDto) {
     return this.projectsService.update(+id, updateProjectDto);
@@ -43,6 +45,7 @@ export class ProjectsController {
     return this.projectsService.remove(+id);
   }
   
+  @UseGuards(JwtAuthenticationGuard, CreatorGuard)
   @Post('upload-image/:id')
   @UseInterceptors(FileInterceptor("file", {
     storage: diskStorage( {
@@ -78,13 +81,14 @@ export class ProjectsController {
     }
   }
 
+  @UseGuards(JwtAuthenticationGuard)
   @Get('image/:id')
   async getImage(@Param('id') id: string, @Res() res: Response){
     const project = this.projectsService.findOne(+id);
     return {data:res.sendFile((await project).pathImage, {root:'./image'})}
   }
 
-
+  @UseGuards(JwtAuthenticationGuard)
   @Get('user/:id')
   finduserid(@Param('id') id: string) {
     return this.projectsService.finduserid(+id);
