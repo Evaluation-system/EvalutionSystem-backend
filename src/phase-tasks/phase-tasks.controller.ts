@@ -27,8 +27,8 @@ export class PhaseTasksController {
   }
 
   @UseGuards(JwtAuthenticationGuard)
-  @Get('project/:id')
-  findprojectid(@Param('id') id: string) {
+  @Get('phase/:id')
+  findphaseid(@Param('id') id: string) {
     return this.phaseTasksService.findphaseid(+id);
   }
 
