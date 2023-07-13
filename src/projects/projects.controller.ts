@@ -70,7 +70,7 @@ export class ProjectsController {
       throw new BadRequestException("Файл не является изображением");
     } else {
       const response = {
-        filePath: `${file.filename}`
+        filePath: `./image/${file.filename}`
       }
       let project = await this.projectsService.findOne(id)
       project.pathImage = response.filePath
@@ -94,9 +94,9 @@ export class ProjectsController {
     return this.projectsService.finduserid(+id);
   }
 
-  /*@Get(':id/patch')
+  @Get(':id/patch')
   async getPatch( @Param('id') id: string){
     const project = this.projectsService.findOne(+id);
     return  (await project).pathImage;
-  }*/
+  }
 }
