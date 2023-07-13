@@ -99,4 +99,5 @@ export class ProjectsController {
     const project = this.projectsService.findOne(+id);
     return  (await project).pathImage;
   }
+  //bnvbnm
 }
