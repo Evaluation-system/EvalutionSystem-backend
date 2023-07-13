@@ -29,9 +29,10 @@ model UserProjects {
   procing          Procings[]
   tasks            Tasks[]
   employeePayments EmployeePayments[]
+  phase  phase[]
   pathImage String? 
   price Int?
-  terms String? 
+  terms Int? 
 }
 
 model Procings {
@@ -56,6 +57,22 @@ model EmployeePayments {
   salary    Int
   Project   UserProjects? @relation(fields: [ProjectId], references: [id])
   ProjectId Int?
+}
+
+model phase {
+  id        Int           @id @default(autoincrement())
+  Project   UserProjects? @relation(fields: [ProjectId], references: [id])
+  ProjectId Int?
+  phaseTasks phaseTasks[]
+}
+
+model phaseTasks {
+  id        Int           @id @default(autoincrement())
+  task      String
+  duration   Int
+  price      Int
+  phase   phase? @relation(fields: [phaseId], references: [id])
+  phaseId Int?
 }
 
 enum Role {

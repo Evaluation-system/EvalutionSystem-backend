@@ -8,7 +8,6 @@ export class EmployeePaymentsService {
   constructor(private readonly prismaService: PrismaService) {}
 
   async findAll() {
-   
     return await this.prismaService.employeePayments.findMany();
   }
 
