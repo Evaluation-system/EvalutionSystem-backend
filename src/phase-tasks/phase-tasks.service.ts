@@ -24,8 +24,8 @@ export class PhaseTasksService {
   //     where: { phaseId: phaseId },
   //   });
   // }
-
-    async findphaseid(phaseId: number) {
+  
+  async findphaseid(phaseId: number) {
     const phase =  await this.prismaService.phase.findUnique({
       where: { id: phaseId },
       include: {
