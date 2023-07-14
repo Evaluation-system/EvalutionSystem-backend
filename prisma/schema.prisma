@@ -26,37 +26,10 @@ model UserProject {
   client           String?
   user             User?              @relation(fields: [userId], references: [id])
   userId           Int?
-  procing          Procing[]
-  tasks            Task[]
-  employeePayments EmployeePayment[]
   phase  phase[]
   pathImage String? 
   price Int?
   terms Int? 
-}
-
-model Procing {
-  id        Int           @id @default(autoincrement())
-  cost      String
-  value     Int
-  project   UserProject? @relation(fields: [projectId], references: [id])
-  projectId Int?
-}
-
-model Task {
-  id        Int           @id @default(autoincrement())
-  task      String
-  time      Int
-  project   UserProject? @relation(fields: [projectId], references: [id])
-  projectId Int?
-}
-
-model EmployeePayment {
-  id        Int           @id @default(autoincrement())
-  employee  String
-  salary    Int
-  Project   UserProject? @relation(fields: [ProjectId], references: [id])
-  ProjectId Int?
 }
 
 model phase {
@@ -74,6 +47,10 @@ model phaseTasks {
   roleEmployee String
   starTask Int
   endTask Int
+  QA Int?
+  PmAm Int?
+  Bugs Int?
+  Risks Int?
   phase   phase? @relation(fields: [phaseId], references: [id])
   phaseId Int?
 }
