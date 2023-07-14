@@ -34,6 +34,10 @@ model UserProject {
 
 model phase {
   id        Int           @id @default(autoincrement())
+  qa Int?
+  pmAm Int?
+  bugs Int?
+  risks Int?
   project   UserProject? @relation(fields: [projectId], references: [id])
   projectId Int?
   phaseTasks phaseTasks[]
@@ -47,10 +51,6 @@ model phaseTasks {
   roleEmployee String
   starTask Int
   endTask Int
-  QA Int?
-  PmAm Int?
-  Bugs Int?
-  Risks Int?
   phase   phase? @relation(fields: [phaseId], references: [id])
   phaseId Int?
 }

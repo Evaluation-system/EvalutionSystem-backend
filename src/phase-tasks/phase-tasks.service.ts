@@ -1,22 +1,35 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreatePhaseTaskDto } from './dto/create-phase-task.dto';
 import { UpdatePhaseTaskDto } from './dto/update-phase-task.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { PostgresErrorCode } from 'src/database/postgresErrorCodes.enum';
 
 @Injectable()
 export class PhaseTasksService {
   constructor(private readonly prismaService: PrismaService) {}
 
   async findAll() {
-    return await this.prismaService.phaseTasks.findMany();
+    try {
+      return await this.prismaService.phaseTasks.findMany();
+    } catch (error) {
+      throw new HttpException('Something went wrong', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   async findOne(id: number) {
-    return await this.prismaService.phaseTasks.findUnique({
-      where: {
-        id: id,
-      },
-    });
+    try {
+      return await this.prismaService.phaseTasks.findUnique({
+        where: {
+          id: id,
+        },
+      });
+    } catch (error) {
+      if (error?.code === PostgresErrorCode.RecordsNotFound) {
+        throw new HttpException('Task with that id does not exist', HttpStatus.BAD_REQUEST);
+      }
+      console.log(error.code)
+      throw new HttpException('Something went wrong', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   // async findphaseid(phaseId: number) {
@@ -26,33 +39,56 @@ export class PhaseTasksService {
   // }
   
   async findphaseid(phaseId: number) {
-    const phase =  await this.prismaService.phase.findUnique({
-      where: { id: phaseId },
-      include: {
-        phaseTasks: true
-      }
-    });
-    return phase.phaseTasks.sort((a, b) => a.id - b.id);
+    try {
+      const phase =  await this.prismaService.phase.findUnique({
+        where: { id: phaseId },
+        include: {
+          phaseTasks: true
+        }
+      });
+      return phase.phaseTasks.sort((a, b) => a.id - b.id);
+    } catch (error) {
+      throw new HttpException('Something went wrong', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   async update(id: number, UpdatePhaseTaskDto: UpdatePhaseTaskDto) {
-
-    return await this.prismaService.phaseTasks.update({
-      where: { id: id },
-      data: UpdatePhaseTaskDto,
-    });
+    try {
+      return await this.prismaService.phaseTasks.update({
+        where: { id: id },
+        data: UpdatePhaseTaskDto,
+      });
+    } catch (error) {
+      if (error?.code === PostgresErrorCode.RecordsNotFound) {
+        throw new HttpException('Task with that id does not exist', HttpStatus.BAD_REQUEST);
+      }
+      console.log(error.code)
+      throw new HttpException('Something went wrong', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   async remove(id: number) {
-    return await this.prismaService.phaseTasks.delete({
-      where: { id: id }
-    });
+    try {
+      return await this.prismaService.phaseTasks.delete({
+        where: { id: id }
+      });
+    } catch (error) {
+      if (error?.code === PostgresErrorCode.RecordsNotFound) {
+        throw new HttpException('Task with that id does not exist', HttpStatus.BAD_REQUEST);
+      }
+      console.log(error.code)
+      throw new HttpException('Something went wrong', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
  
   async create(CreatePhaseTaskDto: CreatePhaseTaskDto) {
-    const newPhaseTask = await this.prismaService.phaseTasks.create({
-      data: CreatePhaseTaskDto,
-    });
-    return newPhaseTask;
+    try {
+      const newPhaseTask = await this.prismaService.phaseTasks.create({
+        data: CreatePhaseTaskDto,
+      });
+      return newPhaseTask;
+    } catch (error) {
+      throw new HttpException('Something went wrong', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 }
