@@ -10,8 +10,9 @@ export class ProjectsService {
 
   async findAll() {
     try {
-      let projects   = await this.prismaService.userProject.findMany(); 
-      return projects/*.filter( function (el)
+      return await this.prismaService.userProject.findMany();
+      /*let projects   = await this.prismaService.userProject.findMany(); 
+      return projects.filter( function (el)
           {
             return el.price >= 1 && el.terms >= 1
           }  
