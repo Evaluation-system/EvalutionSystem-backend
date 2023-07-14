@@ -21,7 +21,7 @@ export class ProjectsController {
     return this.projectsService.create(createProjectDto);
   }
 
-  @UseGuards(JwtAuthenticationGuard)
+  //@UseGuards(JwtAuthenticationGuard)
   @Get()
   findAll() {
     return this.projectsService.findAll();

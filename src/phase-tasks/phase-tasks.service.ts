@@ -27,7 +27,6 @@ export class PhaseTasksService {
       if (error?.code === PostgresErrorCode.RecordsNotFound) {
         throw new HttpException('Task with that id does not exist', HttpStatus.BAD_REQUEST);
       }
-      console.log(error.code)
       throw new HttpException('Something went wrong', HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
@@ -62,7 +61,6 @@ export class PhaseTasksService {
       if (error?.code === PostgresErrorCode.RecordsNotFound) {
         throw new HttpException('Task with that id does not exist', HttpStatus.BAD_REQUEST);
       }
-      console.log(error.code)
       throw new HttpException('Something went wrong', HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
@@ -76,7 +74,6 @@ export class PhaseTasksService {
       if (error?.code === PostgresErrorCode.RecordsNotFound) {
         throw new HttpException('Task with that id does not exist', HttpStatus.BAD_REQUEST);
       }
-      console.log(error.code)
       throw new HttpException('Something went wrong', HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }

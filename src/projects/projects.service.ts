@@ -10,7 +10,12 @@ export class ProjectsService {
 
   async findAll() {
     try {
-      return await this.prismaService.userProject.findMany(); 
+      let projects   = await this.prismaService.userProject.findMany(); 
+      return projects/*.filter( function (el)
+          {
+            return el.price >= 1 && el.terms >= 1
+          }  
+        )*/
     } catch (error) {
       throw new HttpException('Something went wrong', HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -27,7 +32,6 @@ export class ProjectsService {
       if (error?.code === PostgresErrorCode.RecordsNotFound) {
         throw new HttpException('Phase with that id does not exist', HttpStatus.BAD_REQUEST);
       }
-      console.log(error.code)
       throw new HttpException('Something went wrong', HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
@@ -42,7 +46,6 @@ export class ProjectsService {
       if (error?.code === PostgresErrorCode.RecordsNotFound) {
         throw new HttpException('Phase with that id does not exist', HttpStatus.BAD_REQUEST);
       }
-      console.log(error.code)
       throw new HttpException('Something went wrong', HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
@@ -56,7 +59,6 @@ export class ProjectsService {
       if (error?.code === PostgresErrorCode.RecordsNotFound) {
         throw new HttpException('Phase with that id does not exist', HttpStatus.BAD_REQUEST);
       }
-      console.log(error.code)
       throw new HttpException('Something went wrong', HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
