@@ -13,69 +13,72 @@ datasource db {
 model User {
   id       Int            @id @default(autoincrement())
   email    String         @unique
-  role     Role           @default(user)
+  role     Role           @default(USER)
   password String?
   name String?
-  projects UserProjects[]
+  projects UserProject[]
 }
 
-model UserProjects {
+model UserProject {
   id               Int                @id @default(autoincrement())
   title            String
   description      String?
   client           String?
-  User             User?              @relation(fields: [UserId], references: [id])
-  UserId           Int?
-  procing          Procings[]
-  tasks            Tasks[]
-  employeePayments EmployeePayments[]
+  user             User?              @relation(fields: [userId], references: [id])
+  userId           Int?
+  procing          Procing[]
+  tasks            Task[]
+  employeePayments EmployeePayment[]
   phase  phase[]
   pathImage String? 
   price Int?
   terms Int? 
 }
 
-model Procings {
+model Procing {
   id        Int           @id @default(autoincrement())
   cost      String
   value     Int
-  Project   UserProjects? @relation(fields: [ProjectId], references: [id])
-  ProjectId Int?
+  project   UserProject? @relation(fields: [projectId], references: [id])
+  projectId Int?
 }
 
-model Tasks {
+model Task {
   id        Int           @id @default(autoincrement())
   task      String
   time      Int
-  Project   UserProjects? @relation(fields: [ProjectId], references: [id])
-  ProjectId Int?
+  project   UserProject? @relation(fields: [projectId], references: [id])
+  projectId Int?
 }
 
-model EmployeePayments {
+model EmployeePayment {
   id        Int           @id @default(autoincrement())
   employee  String
   salary    Int
-  Project   UserProjects? @relation(fields: [ProjectId], references: [id])
+  Project   UserProject? @relation(fields: [ProjectId], references: [id])
   ProjectId Int?
 }
 
 model phase {
   id        Int           @id @default(autoincrement())
-  Project   UserProjects? @relation(fields: [ProjectId], references: [id])
-  ProjectId Int?
+  project   UserProject? @relation(fields: [projectId], references: [id])
+  projectId Int?
   phaseTasks phaseTasks[]
 }
 
 model phaseTasks {
   id        Int           @id @default(autoincrement())
-  task      String
-  duration   Int
-  price      Int
+  titleTask      String
+  descriptionTask   String
+  countTask      Int
+  roleEmployee String
+  starTask Int
+  endTask Int
   phase   phase? @relation(fields: [phaseId], references: [id])
   phaseId Int?
 }
 
 enum Role {
-  user
-  admin
+  USER
+  ADMIN
 }

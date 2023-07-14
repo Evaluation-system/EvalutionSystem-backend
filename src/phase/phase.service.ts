@@ -20,9 +20,15 @@ export class PhaseService {
   }
 
   async findprojectid(ProjectId: number) {
-    return await this.prismaService.phase.findMany({
-      where: { ProjectId: ProjectId },
+
+    let project =  await this.prismaService.userProject.findUnique({
+      where: { id: ProjectId },
+      include: {
+        phase: true
+      }
     });
+
+    return project.phase
   }
 
   async update(id: number, UpdatePhaseDto: UpdatePhaseDto) {

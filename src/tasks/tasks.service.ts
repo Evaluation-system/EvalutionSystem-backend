@@ -9,39 +9,39 @@ export class TasksService {
 
   async findAll() {
    
-    return await this.prismaService.tasks.findMany();
+    return await this.prismaService.task.findMany();
   }
 
   async findOne(id: number) {
-    return await this.prismaService.tasks.findUnique({
+    return await this.prismaService.task.findUnique({
       where: {
         id: id,
       },
     });
   }
 
-  async findprojectid(ProjectId: number) {
-    return await this.prismaService.tasks.findMany({
-      where: { ProjectId: ProjectId },
+  async findprojectid(projectId: number) {
+    return await this.prismaService.task.findMany({
+      where: { projectId: projectId },
     });
   }
 
   async update(id: number, UpdateProjectDto: UpdateTaskDto) {
 
-    return await this.prismaService.tasks.update({
-      where: { id: id },
+    return await this.prismaService.task.update({
+      where: { id },
       data: UpdateProjectDto,
     });
   }
 
   async remove(id: number) {
-    return await this.prismaService.tasks.delete({
+    return await this.prismaService.task.delete({
       where: { id: id }
     });;
   }
  
   async create(CreateTaskDto: CreateTaskDto) {
-    const newTask = await this.prismaService.tasks.create({
+    const newTask = await this.prismaService.task.create({
       data: CreateTaskDto,
     });;
     return newTask;
