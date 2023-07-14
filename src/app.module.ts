@@ -7,6 +7,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ProjectsModule } from './projects/projects.module';
 import { PhaseTasksModule } from './phase-tasks/phase-tasks.module';
 import * as Joi from 'joi';
+import { PhaseModule } from './phase/phase.module';
 
 
 @Module({
@@ -20,6 +21,7 @@ import * as Joi from 'joi';
       })
     }),
     ProjectsModule,
+    PhaseModule,
     PhaseTasksModule],
   controllers: [AppController],
   providers: [AppService],
