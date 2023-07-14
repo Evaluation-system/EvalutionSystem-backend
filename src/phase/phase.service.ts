@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreatePhaseDto } from './dto/create-phase.dto';
 import { UpdatePhaseDto } from './dto/update-phase.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -38,15 +38,24 @@ export class PhaseService {
   }
 
   async remove(id: number) {
-    return await this.prismaService.phase.delete({
+    try {
+      return await this.prismaService.phase.delete({
       where: { id: id }
     });
+  } catch (error) {
+    console.log(error.code)
+    throw new HttpException('Something went wrong when creating the phase', HttpStatus.INTERNAL_SERVER_ERROR);
+  }
   }
  
   async create(CreatePhaseDto: CreatePhaseDto) {
-    const newPhase = await this.prismaService.phase.create({
+    try {
+      const newPhase = await this.prismaService.phase.create({
       data: CreatePhaseDto,
     });
     return newPhase;
+  } catch (error) {
+    throw new HttpException('Something went wrong when creating the phase', HttpStatus.INTERNAL_SERVER_ERROR);
+  }
   }
 }
