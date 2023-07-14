@@ -14,13 +14,13 @@ export default class CreatorGuard implements CanActivate {
     console.log(user)
     console.log(params)
     if (!user || !params) return false
-    if (user?.role.includes(Role.admin)) return true
+    if (user?.role.includes(Role.ADMIN)) return true
 
     const userId = user.id
     const projectId = Number(params.id)
     const userChecked = await this.UserService.findOne( userId )
     const projectChecked = await this.ProjectService.findOne( projectId )
 
-    return (userChecked.id === projectChecked.UserId)
+    return (userChecked.id === projectChecked.userId)
   }
 }
