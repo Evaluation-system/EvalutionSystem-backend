@@ -20,15 +20,13 @@ export class PhaseService {
   }
 
   async findprojectid(ProjectId: number) {
-
-    let project =  await this.prismaService.userProject.findUnique({
+    const project =  await this.prismaService.userProject.findUnique({
       where: { id: ProjectId },
       include: {
         phase: true
       }
     });
-
-    return project.phase
+    return project.phase.sort((a, b) => a.id - b.id);
   }
 
   async update(id: number, UpdatePhaseDto: UpdatePhaseDto) {

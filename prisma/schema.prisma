@@ -47,6 +47,10 @@ model phaseTasks {
   roleEmployee String
   starTask Int
   endTask Int
+  QA Int?
+  PmAm Int?
+  Bugs Int?
+  Risks Int?
   phase   phase? @relation(fields: [phaseId], references: [id])
   phaseId Int?
 }

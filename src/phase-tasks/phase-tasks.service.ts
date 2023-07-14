@@ -19,10 +19,20 @@ export class PhaseTasksService {
     });
   }
 
-  async findphaseid(phaseId: number) {
-    return await this.prismaService.phaseTasks.findMany({
-      where: { phaseId: phaseId },
+  // async findphaseid(phaseId: number) {
+  //   return await this.prismaService.phaseTasks.findMany({
+  //     where: { phaseId: phaseId },
+  //   });
+  // }
+
+    async findphaseid(phaseId: number) {
+    const phase =  await this.prismaService.phase.findUnique({
+      where: { id: phaseId },
+      include: {
+        phaseTasks: true
+      }
     });
+    return phase.phaseTasks.sort((a, b) => a.id - b.id);
   }
 
   async update(id: number, UpdatePhaseTaskDto: UpdatePhaseTaskDto) {
