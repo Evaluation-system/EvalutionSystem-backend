@@ -5,10 +5,9 @@ import { UserModule } from './user/user.module';
 import { AuthModule }  from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { ProjectsModule } from './projects/projects.module';
-import { ProcingsModule } from './procings/procings.module';
-import { TasksModule } from './tasks/tasks.module';
-import { EmployeePaymentsModule } from './employee-payments/employee-payments.module';
+import { PhaseTasksModule } from './phase-tasks/phase-tasks.module';
 import * as Joi from 'joi';
+import { PhaseModule } from './phase/phase.module';
 
 
 @Module({
@@ -22,9 +21,8 @@ import * as Joi from 'joi';
       })
     }),
     ProjectsModule,
-    ProcingsModule,
-    TasksModule,
-    EmployeePaymentsModule],
+    PhaseModule,
+    PhaseTasksModule],
   controllers: [AppController],
   providers: [AppService],
 })

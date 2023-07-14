@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "phaseTasks" ADD COLUMN     "Bugs" INTEGER,
+ADD COLUMN     "PmAm" INTEGER,
+ADD COLUMN     "QA" INTEGER,
+ADD COLUMN     "Risks" INTEGER;

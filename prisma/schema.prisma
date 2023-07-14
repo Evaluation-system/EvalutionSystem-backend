@@ -12,53 +12,50 @@ datasource db {
 
 model User {
   id       Int            @id @default(autoincrement())
-  name String?
   email    String         @unique
+  role     Role           @default(USER)
   password String?
-  role     Role           @default(user)
-  projects UserProjects[]
+  name String?
+  projects UserProject[]
 }
 
-model UserProjects {
+model UserProject {
   id               Int                @id @default(autoincrement())
   title            String
   description      String?
   client           String?
-  User             User?              @relation(fields: [UserId], references: [id])
-  UserId           Int?
-  procing          Procings[]
-  tasks            Tasks[]
-  employeePayments EmployeePayments[]
+  user             User?              @relation(fields: [userId], references: [id])
+  userId           Int?
+  phase  phase[]
   pathImage String? 
   price Int?
-  terms String?
+  terms Int? 
 }
 
-model Procings {
+model phase {
   id        Int           @id @default(autoincrement())
-  cost      String
-  value     Int
-  Project   UserProjects? @relation(fields: [ProjectId], references: [id])
-  ProjectId Int?
+  project   UserProject? @relation(fields: [projectId], references: [id])
+  projectId Int?
+  phaseTasks phaseTasks[]
 }
 
-model Tasks {
+model phaseTasks {
   id        Int           @id @default(autoincrement())
-  task      String
-  time      Int
-  Project   UserProjects? @relation(fields: [ProjectId], references: [id])
-  ProjectId Int?
-}
-
-model EmployeePayments {
-  id        Int           @id @default(autoincrement())
-  employee  String
-  salary    Int
-  Project   UserProjects? @relation(fields: [ProjectId], references: [id])
-  ProjectId Int?
+  titleTask      String
+  descriptionTask   String
+  countTask      Int
+  roleEmployee String
+  starTask Int
+  endTask Int
+  QA Int?
+  PmAm Int?
+  Bugs Int?
+  Risks Int?
+  phase   phase? @relation(fields: [phaseId], references: [id])
+  phaseId Int?
 }
 
 enum Role {
-  user
-  admin
+  USER
+  ADMIN
 }
