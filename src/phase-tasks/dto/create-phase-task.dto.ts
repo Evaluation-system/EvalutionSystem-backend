@@ -3,13 +3,25 @@ import { IsInt, IsNotEmpty, IsString } from "class-validator"
 export class CreatePhaseTaskDto {    
     @IsString()
     @IsNotEmpty()
-    task: string
+    titleTask: string
+
+    @IsString()
+    @IsNotEmpty()
+    descriptionTask: string
 
     @IsInt()
     @IsNotEmpty()
-    duration: any
+    countTask: any
+
+    @IsString()
+    @IsNotEmpty()
+    roleEmployee: string
 
     @IsInt()
     @IsNotEmpty()
-    price: any
+    starTask: any
+
+    @IsInt()
+    @IsNotEmpty()
+    endTask: any
 }

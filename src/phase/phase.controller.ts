@@ -8,7 +8,7 @@ import JwtAuthenticationGuard from 'src/auth/jwt-auth.guard';
 export class PhaseController {
   constructor(private readonly phaseService: PhaseService) {}
 
-  @UseGuards(JwtAuthenticationGuard)
+ // @UseGuards(JwtAuthenticationGuard)
   @Post()
   create(@Body() createPhaseDto: CreatePhaseDto) {
     return this.phaseService.create(createPhaseDto);
@@ -26,7 +26,7 @@ export class PhaseController {
     return this.phaseService.findOne(+id);
   }
 
-  @UseGuards(JwtAuthenticationGuard)
+  // @UseGuards(JwtAuthenticationGuard)
   @Get('project/:id')
   findprojectid(@Param('id') id: string) {
     return this.phaseService.findprojectid(+id);

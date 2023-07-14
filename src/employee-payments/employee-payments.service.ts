@@ -8,11 +8,11 @@ export class EmployeePaymentsService {
   constructor(private readonly prismaService: PrismaService) {}
 
   async findAll() {
-    return await this.prismaService.employeePayments.findMany();
+    return await this.prismaService.employeePayment.findMany();
   }
 
   async findOne(id: number) {
-    return await this.prismaService.employeePayments.findUnique({
+    return await this.prismaService.employeePayment.findUnique({
       where: {
         id: id,
       },
@@ -20,27 +20,27 @@ export class EmployeePaymentsService {
   }
 
   async findprojectid(ProjectId: number) {
-    return await this.prismaService.employeePayments.findMany({
+    return await this.prismaService.employeePayment.findMany({
       where: { ProjectId: ProjectId },
     });
   }
 
   async update(id: number, UpdateEmployeePaymentDto: UpdateEmployeePaymentDto) {
 
-    return await this.prismaService.employeePayments.update({
+    return await this.prismaService.employeePayment.update({
       where: { id: id },
       data: UpdateEmployeePaymentDto,
     });
   }
 
   async remove(id: number) {
-    return await this.prismaService.employeePayments.delete({
+    return await this.prismaService.employeePayment.delete({
       where: { id: id }
     });;
   }
  
   async create(CreateEmployeePaymentDto: CreateEmployeePaymentDto) {
-    const newEmployeePayment = await this.prismaService.employeePayments.create({
+    const newEmployeePayment = await this.prismaService.employeePayment.create({
       data: CreateEmployeePaymentDto,
     });;
     return newEmployeePayment;

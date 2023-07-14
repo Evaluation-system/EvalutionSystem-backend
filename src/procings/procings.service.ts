@@ -9,11 +9,11 @@ export class ProcingsService {
 
   async findAll() {
    
-    return await this.prismaService.procings.findMany();
+    return await this.prismaService.procing.findMany();
   }
 
   async findOne(id: number) {
-    return await this.prismaService.procings.findUnique({
+    return await this.prismaService.procing.findUnique({
       where: {
         id: id,
       },
@@ -21,27 +21,27 @@ export class ProcingsService {
   }
 
   async findprojectid(ProjectId: number) {
-    return await this.prismaService.procings.findMany({
-      where: { ProjectId: ProjectId },
+    return await this.prismaService.procing.findMany({
+      where: { projectId: ProjectId },
     });
   }
 
   async update(id: number, UpdateProjectDto: UpdateProcingDto) {
 
-    return await this.prismaService.procings.update({
+    return await this.prismaService.procing.update({
       where: { id: id },
       data: UpdateProjectDto,
     });
   }
 
   async remove(id: number) {
-    return await this.prismaService.procings.delete({
+    return await this.prismaService.procing.delete({
       where: { id: id }
     });;
   }
  
   async create(CreateProcingDto: CreateProcingDto) {
-    const newProcing = await this.prismaService.procings.create({
+    const newProcing = await this.prismaService.procing.create({
       data: CreateProcingDto,
     });;
     return newProcing;

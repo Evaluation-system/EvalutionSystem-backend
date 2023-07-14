@@ -10,11 +10,11 @@ export class ProjectsService {
 
   async findAll() {
    
-    return await this.prismaService.userProjects.findMany();
+    return await this.prismaService.userProject.findMany();
   }
 
   async findOne(id: number) {
-    return await this.prismaService.userProjects.findUnique({
+    return await this.prismaService.userProject.findUnique({
       where: {
         id: id,
       },
@@ -23,28 +23,28 @@ export class ProjectsService {
 
   async update(id: number, UpdateProjectDto: UpdateProjectDto) {
 
-    return await this.prismaService.userProjects.update({
+    return await this.prismaService.userProject.update({
       where: { id: id },
       data: UpdateProjectDto,
     });
   }
 
   async remove(id: number) {
-    return await this.prismaService.userProjects.delete({
+    return await this.prismaService.userProject.delete({
       where: { id: id }
     });;
   }
  
   async create(CreateProjectDto: CreateProjectDto) {
-    const newProject = await this.prismaService.userProjects.create({
+    const newProject = await this.prismaService.userProject.create({
       data: CreateProjectDto,
     });;
     return newProject;
   }
 
-  async finduserid(UserId: number) {
-    const masproject = await this.prismaService.userProjects.findMany({
-      where: { UserId: UserId },
+  async finduserid(userId: number) {
+    const masproject = await this.prismaService.userProject.findMany({
+      where: { userId: userId },
     });
     return masproject.sort((a, b) => a.id - b.id);
   }
