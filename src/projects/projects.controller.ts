@@ -88,7 +88,7 @@ export class ProjectsController {
     return {data:res.sendFile((await project).pathImage, {root:'./image'})}
   }
 
-  @UseGuards(JwtAuthenticationGuard)
+  //@UseGuards(JwtAuthenticationGuard)
   @Get('user/:id')
   finduserid(@Param('id') id: string) {
     return this.projectsService.finduserid(+id);

@@ -49,6 +49,7 @@ model phaseTasks {
   id        Int           @id @default(autoincrement())
   titleTask      String
   descriptionTask   String
+  countTask      Int
   roleEmployee String
   starTask Int
   endTask Int

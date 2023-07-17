@@ -42,12 +42,10 @@ export class PhaseTasksService {
       const phase =  await this.prismaService.phase.findUnique({
         where: { id: phaseId },
         include: {
-          phaseTasks: {orderBy: {
-            id: 'asc',
-          }}
+          phaseTasks: true
         }
       });
-      return phase
+      return phase.phaseTasks.sort((a, b) => a.id - b.id);
     } catch (error) {
       throw new HttpException('Something went wrong', HttpStatus.INTERNAL_SERVER_ERROR);
     }

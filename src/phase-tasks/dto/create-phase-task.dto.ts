@@ -9,6 +9,10 @@ export class CreatePhaseTaskDto {
     @IsNotEmpty()
     descriptionTask: string
 
+    @IsInt()
+    @IsNotEmpty()
+    countTask: any
+
     @IsString()
     @IsNotEmpty()
     roleEmployee: string
