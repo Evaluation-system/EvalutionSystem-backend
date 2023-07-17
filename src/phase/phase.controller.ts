@@ -26,7 +26,7 @@ export class PhaseController {
     return this.phaseService.findOne(+id);
   }
 
-  @UseGuards(JwtAuthenticationGuard)
+  //@UseGuards(JwtAuthenticationGuard)
   @Get('project/:id')
   findprojectid(@Param('id') id: string) {
     return this.phaseService.findprojectid(+id);

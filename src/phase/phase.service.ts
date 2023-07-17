@@ -36,10 +36,12 @@ export class PhaseService {
       const project =  await this.prismaService.userProject.findUnique({
         where: { id: ProjectId },
         include: {
-          phase: true
-        }
+          phase: {orderBy: {
+            id: 'asc',
+          }}
+        },
       });
-      return project.phase.sort((a, b) => a.id - b.id);
+      return project
     } catch (error) {
       throw new HttpException('Something went wrong', HttpStatus.INTERNAL_SERVER_ERROR);
     }
