@@ -83,7 +83,7 @@ export class ProjectsService {
           projects: true
         }
       });
-      return user.projects.sort((a, b) => a.id - b.id);
+      return user.projects
     } catch (error) {
       throw new HttpException('Something went wrong', HttpStatus.INTERNAL_SERVER_ERROR);
     }

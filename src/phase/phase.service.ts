@@ -39,7 +39,7 @@ export class PhaseService {
           phase: true
         }
       });
-      return project.phase.sort((a, b) => a.id - b.id);
+      return project.phase
     } catch (error) {
       throw new HttpException('Something went wrong', HttpStatus.INTERNAL_SERVER_ERROR);
     }

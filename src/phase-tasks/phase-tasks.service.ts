@@ -45,7 +45,7 @@ export class PhaseTasksService {
           phaseTasks: true
         }
       });
-      return phase.phaseTasks.sort((a, b) => a.id - b.id);
+      return phase.phaseTasks
     } catch (error) {
       throw new HttpException('Something went wrong', HttpStatus.INTERNAL_SERVER_ERROR);
     }
