@@ -80,10 +80,12 @@ export class ProjectsService {
       const user = await this.prismaService.user.findUnique({
         where: { id: userId },
         include: {
-          projects: true
+          projects: {orderBy: {
+            id: 'asc',
+          }}
         }
       });
-      return user.projects.sort((a, b) => a.id - b.id);
+      return user
     } catch (error) {
       throw new HttpException('Something went wrong', HttpStatus.INTERNAL_SERVER_ERROR);
     }

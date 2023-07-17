@@ -38,7 +38,7 @@ export class PhaseController {
     return this.phaseService.update(+id, updatePhaseDto);
   }
 
-  //@UseGuards(JwtAuthenticationGuard)
+  @UseGuards(JwtAuthenticationGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.phaseService.remove(+id);
