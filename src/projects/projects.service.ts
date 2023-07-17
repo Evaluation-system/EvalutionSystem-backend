@@ -85,7 +85,7 @@ export class ProjectsService {
           }}
         }
       });
-      return user
+      return user.projects
     } catch (error) {
       throw new HttpException('Something went wrong', HttpStatus.INTERNAL_SERVER_ERROR);
     }
