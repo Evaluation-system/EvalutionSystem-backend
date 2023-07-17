@@ -47,7 +47,7 @@ export class PhaseTasksService {
           }}
         }
       });
-      return phase
+      return phase.phaseTasks
     } catch (error) {
       throw new HttpException('Something went wrong', HttpStatus.INTERNAL_SERVER_ERROR);
     }

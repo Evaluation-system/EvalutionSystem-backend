@@ -41,7 +41,7 @@ export class PhaseService {
           }}
         },
       });
-      return project
+      return project.phase
     } catch (error) {
       throw new HttpException('Something went wrong', HttpStatus.INTERNAL_SERVER_ERROR);
     }
